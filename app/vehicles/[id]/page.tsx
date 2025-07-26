@@ -1,12 +1,24 @@
 // app/vehicles/[id]/page.tsx
 
-import VehicleDetail from './VehicleDetail';
+import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
-  return ['1', '2', '3', '4', '5'].map((id) => ({ id }));
+interface VehiclePageProps {
+  params: { id: string };
 }
 
-export default async function VehicleDetailPage({ params }: { params: { id: string } }) {
-  const id = params.id;
-  return <VehicleDetail vehicleId={id} />;
+export default async function VehiclePage({ params }: VehiclePageProps) {
+  const { id } = params;
+
+  // Example fetch - replace with real one
+  const res = await fetch(`https://your.api/vehicles/${id}`);
+  if (!res.ok) return notFound();
+
+  const vehicle = await res.json();
+
+  return (
+    <div>
+      <h1>Vehicle ID: {vehicle.id}</h1>
+      <p>{vehicle.name}</p>
+    </div>
+  );
 }
