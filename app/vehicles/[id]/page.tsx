@@ -1,20 +1,17 @@
 // app/vehicles/[id]/page.tsx
 import VehicleDetail from './VehicleDetail';
+import { Metadata } from 'next';
 
-type PageProps = {
-  params: { id: string };
+export const generateStaticParams = () => {
+  return ['1', '2', '3', '4', '5'].map((id) => ({ id }));
 };
 
-export function generateStaticParams() {
-  return [
-    { id: '1' },
-    { id: '2' },
-    { id: '3' },
-    { id: '4' },
-    { id: '5' },
-  ];
-}
+type Props = {
+  params: {
+    id: string;
+  };
+};
 
-export default function VehicleDetailPage({ params }: PageProps) {
+export default function VehicleDetailPage({ params }: Props) {
   return <VehicleDetail vehicleId={params.id} />;
 }
