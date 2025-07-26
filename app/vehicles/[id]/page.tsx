@@ -1,5 +1,3 @@
-// Trigger full rebuild
-
 import VehicleDetail from './VehicleDetail';
 
 export async function generateStaticParams() {
@@ -12,10 +10,7 @@ export async function generateStaticParams() {
   ];
 }
 
-export default async function VehicleDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+// ✅ FIXED: use the correct type for App Router route segment
+export default function VehicleDetailPage({ params }: { params: { id: string } }) {
   return <VehicleDetail vehicleId={params.id} />;
 }
