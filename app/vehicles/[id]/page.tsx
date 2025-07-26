@@ -10,11 +10,10 @@ export async function generateStaticParams() {
   ];
 }
 
-export default async function VehicleDetailPage({
-  params,
-}: {
+interface VehiclePageParams {
   params: { id: string };
-}) {
-  const { id } = params;
-  return <VehicleDetail vehicleId={id} />;
+}
+
+export default function VehiclePage({ params }: VehiclePageParams) {
+  return <VehicleDetail vehicleId={params.id} />;
 }
