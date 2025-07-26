@@ -1,22 +1,18 @@
+// app/vehicles/[id]/page.tsx
 import VehicleDetail from './VehicleDetail';
-import { Metadata } from 'next';
 
-// Optional: define metadata for SEO, if needed
-export const metadata: Metadata = {
-  title: 'Vehicle Detail',
-  description: 'View details for a specific vehicle',
+type Props = {
+  params: {
+    id: string;
+  };
 };
 
-// Tell Next.js which dynamic routes to pre-render
+// Optional: define static params for SSG
 export async function generateStaticParams() {
   return ['1', '2', '3', '4', '5'].map((id) => ({ id }));
 }
 
-// This is the dynamic route page component
-export default function VehicleDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+// Main page component
+export default function VehicleDetailPage({ params }: Props) {
   return <VehicleDetail vehicleId={params.id} />;
 }
