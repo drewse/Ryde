@@ -8,7 +8,7 @@ import Card from '../../components/ui/Card';
 import MobileBottomNav from '../../components/MobileBottomNav';
 
 interface User {
-  id?: number;
+  id?: number | null;
   name: string;
   email: string;
   phone?: string;
@@ -61,9 +61,8 @@ export default function UsersPage() {
   const [showAddUser, setShowAddUser] = useState(false);
   const [showEditUser, setShowEditUser] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [editUser, setEditUser] = useState<User>({
-    id: undefined,
+    id: null,
     name: '',
     email: '',
     role: 'Technician',
@@ -79,7 +78,6 @@ export default function UsersPage() {
   });
 
   const handleAddUser = () => {
-    // Add user logic here
     console.log('Adding user:', newUser);
     setShowAddUser(false);
     setNewUser({ name: '', email: '', role: 'Technician', password: '' });
@@ -99,18 +97,16 @@ export default function UsersPage() {
   };
 
   const handleSaveUser = () => {
-    // Save user logic here
     console.log('Saving user:', editUser);
     setShowEditUser(false);
-    setEditUser({ id: undefined, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
+    setEditUser({ id: null, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
   };
 
   const handleDeleteUser = () => {
-    // Delete user logic here
     console.log('Deleting user:', editUser.id);
     setShowDeleteConfirm(false);
     setShowEditUser(false);
-    setEditUser({ id: undefined, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
+    setEditUser({ id: null, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
   };
 
   const formatLastLogin = (timestamp: string) => {
@@ -362,7 +358,7 @@ export default function UsersPage() {
                     <button
                       onClick={() => {
                         setShowEditUser(false);
-                        setEditUser({ id: undefined, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
+                        setEditUser({ id: null, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
                       }}
                       className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
                     >

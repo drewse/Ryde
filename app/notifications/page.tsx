@@ -63,9 +63,9 @@ const notifications = [
 
 export default function NotificationsPage() {
   const [filter, setFilter] = useState('all');
-  const [notifications_] = useState(notifications);
+  const [notificationsData] = useState(notifications);
 
-  const filteredNotifications = notifications_.filter(notification => {
+  const filteredNotifications = notificationsData.filter(notification => {
     if (filter === 'all') return true;
     if (filter === 'unread') return !notification.read;
     return notification.type === filter;
