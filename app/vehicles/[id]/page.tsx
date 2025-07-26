@@ -1,4 +1,3 @@
-
 import VehicleDetail from './VehicleDetail';
 
 type PageProps = {
@@ -7,6 +6,7 @@ type PageProps = {
   };
 };
 
+// Tell Next.js what dynamic routes to pre-render
 export async function generateStaticParams() {
   return [
     { id: '1' },
@@ -17,6 +17,7 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function VehicleDetailPage({ params }: PageProps) {
+// Async is required for compatibility with generateStaticParams
+export default async function VehicleDetailPage({ params }: PageProps) {
   return <VehicleDetail vehicleId={params.id} />;
 }
