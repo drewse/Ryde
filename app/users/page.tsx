@@ -7,7 +7,18 @@ import Header from '../../components/Header';
 import Card from '../../components/ui/Card';
 import MobileBottomNav from '../../components/MobileBottomNav';
 
-const users = [
+interface User {
+  id?: number;
+  name: string;
+  email: string;
+  phone?: string;
+  role: string;
+  status: string;
+  lastLogin: string;
+  profilePicture: null | string;
+}
+
+const users: User[] = [
   {
     id: 1,
     name: 'John Doe',
@@ -51,12 +62,13 @@ export default function UsersPage() {
   const [showEditUser, setShowEditUser] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [editUser, setEditUser] = useState({
-    id: null,
+  const [editUser, setEditUser] = useState<User>({
+    id: undefined,
     name: '',
     email: '',
     role: 'Technician',
     status: 'Active',
+    lastLogin: '',
     profilePicture: null
   });
   const [newUser, setNewUser] = useState({
@@ -73,13 +85,14 @@ export default function UsersPage() {
     setNewUser({ name: '', email: '', role: 'Technician', password: '' });
   };
 
-  const handleEditUser = (user) => {
+  const handleEditUser = (user: User) => {
     setEditUser({
       id: user.id,
       name: user.name,
       email: user.email,
       role: user.role,
       status: user.status,
+      lastLogin: user.lastLogin,
       profilePicture: user.profilePicture
     });
     setShowEditUser(true);
@@ -89,7 +102,7 @@ export default function UsersPage() {
     // Save user logic here
     console.log('Saving user:', editUser);
     setShowEditUser(false);
-    setEditUser({ id: null, name: '', email: '', role: 'Technician', status: 'Active', profilePicture: null });
+    setEditUser({ id: undefined, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
   };
 
   const handleDeleteUser = () => {
@@ -97,7 +110,7 @@ export default function UsersPage() {
     console.log('Deleting user:', editUser.id);
     setShowDeleteConfirm(false);
     setShowEditUser(false);
-    setEditUser({ id: null, name: '', email: '', role: 'Technician', status: 'Active', profilePicture: null });
+    setEditUser({ id: undefined, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
   };
 
   const formatLastLogin = (timestamp: string) => {
@@ -107,26 +120,30 @@ export default function UsersPage() {
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case 'Admin': return 'bg-purple-100 text-purple-800';
-      case 'Manager': return 'bg-blue-100 text-blue-800';
-      case 'Technician': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'Admin':
+        return 'bg-purple-100 text-purple-800';
+      case 'Manager':
+        return 'bg-blue-100 text-blue-800';
+      case 'Technician':
+        return 'bg-green-100 text-green-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      
+
       <div className="flex-1 pb-16 md:pb-0">
         <Header />
-        
+
         <main className="p-4 md:p-6">
           <div className="mb-4 md:mb-6">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">User Management</h1>
             <p className="text-sm md:text-base text-gray-600 mt-1">Manage dealership staff and their access permissions</p>
           </div>
-          
+
           <Card className="p-4 md:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 md:mb-6 space-y-4 sm:space-y-0">
               <h3 className="text-base md:text-lg font-semibold text-gray-900">Team Members</h3>
@@ -137,7 +154,7 @@ export default function UsersPage() {
                 Add User
               </button>
             </div>
-            
+
             {/* Mobile Card View */}
             <div className="md:hidden space-y-4">
               {users.map((user) => (
@@ -145,7 +162,7 @@ export default function UsersPage() {
                   <div className="flex items-center mb-3">
                     <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center mr-3">
                       <span className="text-white text-sm font-medium">
-                        {user.name.split(' ').map(n => n[0]).join('')}
+                        {user.name.split(' ').map((n) => n[0]).join('')}
                       </span>
                     </div>
                     <div className="flex-1">
@@ -153,31 +170,37 @@ export default function UsersPage() {
                       <p className="text-sm text-gray-600">{user.email}</p>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4 mb-3">
                     <div>
                       <p className="text-xs text-gray-500">Role</p>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(user.role)}`}>
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(
+                          user.role
+                        )}`}
+                      >
                         {user.role}
                       </span>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">Status</p>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                        }`}
+                      >
                         {user.status}
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="mb-3">
                     <p className="text-xs text-gray-500">Last Login</p>
                     <p className="text-sm font-medium">{formatLastLogin(user.lastLogin)}</p>
                   </div>
-                  
+
                   <div className="flex items-center">
-                    <button 
+                    <button
                       onClick={() => handleEditUser(user)}
                       className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700 transition-colors"
                     >
@@ -187,7 +210,7 @@ export default function UsersPage() {
                 </div>
               ))}
             </div>
-            
+
             {/* Desktop Table View */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
@@ -208,7 +231,7 @@ export default function UsersPage() {
                         <div className="flex items-center">
                           <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center mr-3">
                             <span className="text-white text-sm font-medium">
-                              {user.name.split(' ').map(n => n[0]).join('')}
+                              {user.name.split(' ').map((n) => n[0]).join('')}
                             </span>
                           </div>
                           <span className="font-medium text-gray-900">{user.name}</span>
@@ -216,22 +239,26 @@ export default function UsersPage() {
                       </td>
                       <td className="py-4 px-4 text-sm text-gray-600">{user.email}</td>
                       <td className="py-4 px-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(user.role)}`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(
+                            user.role
+                          )}`}
+                        >
                           {user.role}
                         </span>
                       </td>
                       <td className="py-4 px-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                        }`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                          }`}
+                        >
                           {user.status}
                         </span>
                       </td>
-                      <td className="py-4 px-4 text-sm text-gray-600">
-                        {formatLastLogin(user.lastLogin)}
-                      </td>
+                      <td className="py-4 px-4 text-sm text-gray-600">{formatLastLogin(user.lastLogin)}</td>
                       <td className="py-4 px-4">
-                        <button 
+                        <button
                           onClick={() => handleEditUser(user)}
                           className="text-blue-600 hover:text-blue-700 text-sm font-medium cursor-pointer whitespace-nowrap"
                         >
@@ -244,13 +271,13 @@ export default function UsersPage() {
               </table>
             </div>
           </Card>
-          
+
           {/* Add User Modal */}
           {showAddUser && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
               <Card className="p-6 w-full max-w-md mx-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New User</h3>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -259,12 +286,12 @@ export default function UsersPage() {
                     <input
                       type="text"
                       value={newUser.name}
-                      onChange={(e) => setNewUser({...newUser, name: e.target.value})}
+                      onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
                       className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-base md:text-sm"
                       placeholder="Enter full name"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Email Address
@@ -272,19 +299,19 @@ export default function UsersPage() {
                     <input
                       type="email"
                       value={newUser.email}
-                      onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                      onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
                       className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-base md:text-sm"
                       placeholder="Enter email address"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Role
                     </label>
                     <select
                       value={newUser.role}
-                      onChange={(e) => setNewUser({...newUser, role: e.target.value})}
+                      onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
                       className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-base md:text-sm pr-8"
                     >
                       <option value="Technician">Technician</option>
@@ -292,7 +319,7 @@ export default function UsersPage() {
                       <option value="Admin">Admin</option>
                     </select>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Password
@@ -300,13 +327,13 @@ export default function UsersPage() {
                     <input
                       type="password"
                       value={newUser.password}
-                      onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                      onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
                       className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-base md:text-sm"
                       placeholder="Enter password"
                     />
                   </div>
                 </div>
-                
+
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3 mt-6">
                   <button
                     onClick={() => setShowAddUser(false)}
@@ -335,7 +362,7 @@ export default function UsersPage() {
                     <button
                       onClick={() => {
                         setShowEditUser(false);
-                        setEditUser({ id: null, name: '', email: '', role: 'Technician', status: 'Active', profilePicture: null });
+                        setEditUser({ id: undefined, name: '', email: '', role: 'Technician', status: 'Active', lastLogin: '', profilePicture: null });
                       }}
                       className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
                     >
@@ -355,7 +382,7 @@ export default function UsersPage() {
                   <div className="flex flex-col items-center">
                     <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mb-3">
                       <span className="text-white text-xl font-medium">
-                        {editUser.name.split(' ').map(n => n[0]).join('')}
+                        {editUser.name.split(' ').map((n) => n[0]).join('')}
                       </span>
                     </div>
                     <button className="text-red-600 hover:text-red-700 text-sm font-medium cursor-pointer">
@@ -371,7 +398,7 @@ export default function UsersPage() {
                     <input
                       type="text"
                       value={editUser.name}
-                      onChange={(e) => setEditUser({...editUser, name: e.target.value})}
+                      onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-base"
                       placeholder="Enter full name"
                     />
@@ -399,7 +426,7 @@ export default function UsersPage() {
                       {['Technician', 'Manager', 'Admin'].map((role) => (
                         <button
                           key={role}
-                          onClick={() => setEditUser({...editUser, role})}
+                          onClick={() => setEditUser({ ...editUser, role })}
                           className={`px-3 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                             editUser.role === role
                               ? 'bg-red-600 text-white'
@@ -419,7 +446,12 @@ export default function UsersPage() {
                     </label>
                     <div className="flex items-center space-x-3">
                       <button
-                        onClick={() => setEditUser({...editUser, status: editUser.status === 'Active' ? 'Inactive' : 'Active'})}
+                        onClick={() =>
+                          setEditUser({
+                            ...editUser,
+                            status: editUser.status === 'Active' ? 'Inactive' : 'Active'
+                          })
+                        }
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
                           editUser.status === 'Active' ? 'bg-red-600' : 'bg-gray-200'
                         }`}
@@ -482,7 +514,7 @@ export default function UsersPage() {
           )}
         </main>
       </div>
-      
+
       <MobileBottomNav />
     </div>
   );
