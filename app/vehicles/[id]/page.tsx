@@ -1,6 +1,12 @@
 
 import VehicleDetail from './VehicleDetail';
 
+type PageProps = {
+  params: {
+    id: string;
+  };
+};
+
 export async function generateStaticParams() {
   return [
     { id: '1' },
@@ -11,6 +17,6 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function VehiclePage({ params }: { params: { id: string } }) {
+export default function VehicleDetailPage({ params }: PageProps) {
   return <VehicleDetail vehicleId={params.id} />;
 }
