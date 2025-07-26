@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   ];
 }
 
-// ✅ FIXED: use the correct type for App Router route segment
-export default function VehicleDetailPage({ params }: { params: { id: string } }) {
-  return <VehicleDetail vehicleId={params.id} />;
+export default async function VehicleDetailPage({ params }: { params: { id: string } }) {
+  const resolvedParams = await Promise.resolve(params); // ✅ Fix type constraint
+  return <VehicleDetail vehicleId={resolvedParams.id} />;
 }
