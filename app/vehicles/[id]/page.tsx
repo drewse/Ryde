@@ -1,18 +1,20 @@
 // app/vehicles/[id]/page.tsx
 import VehicleDetail from './VehicleDetail';
 
-type Props = {
-  params: {
-    id: string;
-  };
+type PageProps = {
+  params: { id: string };
 };
 
-// Optional: define static params for SSG
-export async function generateStaticParams() {
-  return ['1', '2', '3', '4', '5'].map((id) => ({ id }));
+export function generateStaticParams() {
+  return [
+    { id: '1' },
+    { id: '2' },
+    { id: '3' },
+    { id: '4' },
+    { id: '5' },
+  ];
 }
 
-// Main page component
-export default function VehicleDetailPage({ params }: Props) {
+export default function VehicleDetailPage({ params }: PageProps) {
   return <VehicleDetail vehicleId={params.id} />;
 }
