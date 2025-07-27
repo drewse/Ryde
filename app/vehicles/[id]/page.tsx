@@ -1,4 +1,18 @@
 import VehicleDetail from './VehicleDetail';
+import { FC } from 'react';
+import { type Metadata, type ResolvingMetadata } from 'next';
+
+type PageProps = {
+  params: {
+    id: string;
+  };
+};
+
+const VehiclePage: FC<PageProps> = ({ params }) => {
+  return <VehicleDetail vehicleId={params.id} />;
+};
+
+export default VehiclePage;
 
 export async function generateStaticParams() {
   return [
@@ -6,10 +20,6 @@ export async function generateStaticParams() {
     { id: '2' },
     { id: '3' },
     { id: '4' },
-    { id: '5' }
+    { id: '5' },
   ];
-}
-
-export default function VehiclePage({ params }: { params: { id: string } }) {
-  return <VehicleDetail vehicleId={params.id} />;
 }
