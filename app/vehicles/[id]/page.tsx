@@ -1,10 +1,10 @@
 import VehicleDetail from './VehicleDetail';
 
-type Props = {
+export default function VehiclePage({
+  params,
+}: {
   params: { id: string };
-};
-
-export default function VehiclePage({ params }: Props) {
+}) {
   return <VehicleDetail vehicleId={params.id} />;
 }
 
