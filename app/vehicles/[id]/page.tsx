@@ -1,4 +1,13 @@
+// app/vehicles/[id]/page.tsx
 import VehicleDetail from './VehicleDetail';
+
+export default function VehiclePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  return <VehicleDetail vehicleId={params.id} />;
+}
 
 export async function generateStaticParams() {
   return [
@@ -6,14 +15,6 @@ export async function generateStaticParams() {
     { id: '2' },
     { id: '3' },
     { id: '4' },
-    { id: '5' }
+    { id: '5' },
   ];
-}
-
-interface VehiclePageParams {
-  params: { id: string };
-}
-
-export default function VehiclePage({ params }: VehiclePageParams) {
-  return <VehicleDetail vehicleId={params.id} />;
 }
