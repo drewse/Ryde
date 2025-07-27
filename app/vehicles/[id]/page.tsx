@@ -1,4 +1,3 @@
-// app/vehicles/[id]/page.tsx
 import VehicleDetail from './VehicleDetail';
 
 export default function VehiclePage({
@@ -15,6 +14,6 @@ export async function generateStaticParams() {
     { id: '2' },
     { id: '3' },
     { id: '4' },
-    { id: '5' },
+    { id: '5' }
   ];
 }
