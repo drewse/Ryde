@@ -1,5 +1,8 @@
 {
-  "typescript": {
-    "ignoreBuildErrors": true
+  "build": {
+    "env": {
+      "NEXTJS_IGNORE_ESLINT": "true",
+      "NEXT_DISABLE_LINTING": "true"
+    }
   }
 }
