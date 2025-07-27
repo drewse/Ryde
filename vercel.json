@@ -1,5 +1,0 @@
-{
-  "typescript": {
-    "tsconfigPath": "tsconfig.vercel.json"
-  }
-}

@@ -1,3 +1,4 @@
+// @ts-ignore
 import VehicleDetail from './VehicleDetail';
 
 export default function VehiclePage({
@@ -17,3 +18,4 @@ export async function generateStaticParams() {
     { id: '5' },
   ];
 }
+
