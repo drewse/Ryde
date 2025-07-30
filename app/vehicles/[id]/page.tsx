@@ -1,3 +1,5 @@
+// app/vehicles/[id]/page.tsx
+v
 import VehicleDetail from './VehicleDetail';
 
 export async function generateStaticParams() {
@@ -10,6 +12,13 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function VehiclePage({ params }: { params: { id: string } }) {
-  return <VehicleDetail vehicleId={params.id} />;
+type Params = Promise<{ id: string }>;
+
+export default async function VehiclePage({
+  params,
+}: {
+  params: Params;
+}) {
+  const { id } = await params;
+  return <VehicleDetail vehicleId={id} />;
 }
