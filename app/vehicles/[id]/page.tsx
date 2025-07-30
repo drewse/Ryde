@@ -1,5 +1,5 @@
 // app/vehicles/[id]/page.tsx
-v
+
 import VehicleDetail from './VehicleDetail';
 
 export async function generateStaticParams() {
